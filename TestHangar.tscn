@@ -49,9 +49,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D"]
 target_position = Vector3(0, 0, -3)
+collision_mask = 2
 
 [node name="PowerConduit" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -5)
+collision_layer = 2
 script = ExtResource("2_0")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="PowerConduit"]
@@ -62,6 +64,7 @@ shape = SubResource("BoxShape3D_1")
 
 [node name="JunctionBox" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, -5)
+collision_layer = 2
 script = ExtResource("3_0")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="JunctionBox"]

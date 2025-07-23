@@ -43,6 +43,10 @@ right={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_2="interactable"
+
 [rendering]
 
 renderer/rendering_method="forward_plus"
