@@ -3,6 +3,7 @@ extends CharacterBody3D
 @export var speed: float = 5.0
 @export var jump_velocity: float = 4.5
 @export var mouse_sensitivity: float = 0.002
+@export var hud_label: Label
 
 @onready var camera: Camera3D = $Camera3D
 @onready var raycast: RayCast3D = $Camera3D/RayCast3D
@@ -41,6 +42,7 @@ func _physics_process(delta):
 	
 	_handle_interaction()
 	_handle_debug_input()
+	_update_hud()
 
 func _handle_interaction():
 	if Input.is_action_just_pressed("interact"):
@@ -54,3 +56,24 @@ func _handle_debug_input():
 		var power_conduit = get_node("../PowerConduit")
 		if power_conduit and power_conduit.ship_component:
 			power_conduit.ship_component.degrade(1.0)
+
+func _update_hud():
+	if hud_label:
+		if raycast.is_colliding():
+			var collider = raycast.get_collider()
+			# The script is on the parent of the collision shape
+			var component_node = collider.get_parent()
+			
+			if component_node and "ship_component" in component_node:
+				var component = component_node.ship_component
+				if component:
+					var status_text = "Offline"
+					if component.is_powered:
+						status_text = "Powered"
+					
+					var condition_percent = int(component.condition * 100)
+					hud_label.text = "%s | Condition: %s%% | Status: %s" % [component.component_name, condition_percent, status_text]
+					return
+		
+		# If not looking at a valid component, clear the text
+		hud_label.text = ""
