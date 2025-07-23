@@ -1,16 +1,16 @@
 extends Node3D
 
 @export var power_grid: Resource
-@export var flight_controller: FlightController
 
 func _ready():
 	if not power_grid:
 		var power_grid_script = load("res://scripts/systems/power_grid.gd")
 		power_grid = power_grid_script.new()
 	
-	if not flight_controller:
-		flight_controller = FlightController.new()
-		add_child(flight_controller)
+	# Create flight controller
+	var flight_controller_script = load("res://scripts/systems/flight_controller.gd")
+	var flight_controller = flight_controller_script.new()
+	add_child(flight_controller)
 	
 	_register_components()
 	_register_flight_projectors()
@@ -52,16 +52,20 @@ func _update_all_component_hud_info():
 	print("Power Grid updated. All components are now powered: ", power_grid.is_grid_powered())
 
 func _register_flight_projectors():
-	for child in get_children():
-		if child.has_method("get_component"):
-			var component = child.get_component()
-			if component is PhaseFieldProjector:
-				flight_controller.register_projector(component)
+	var flight_controller = get_node("FlightController")
+	if flight_controller:
+		for child in get_children():
+			if child.has_method("get_component"):
+				var component = child.get_component()
+				if component.get_script() and component.get_script().get_path() == "res://scripts/components/phase_field_projector.gd":
+					flight_controller.register_projector(component)
 
 func toggle_flight_mode():
+	var flight_controller = get_node("FlightController")
 	if flight_controller:
 		flight_controller.flight_mode_enabled = !flight_controller.flight_mode_enabled
 		print("Flight mode: ", "ON" if flight_controller.flight_mode_enabled else "OFF")
 
 func is_flight_mode_enabled() -> bool:
+	var flight_controller = get_node("FlightController")
 	return flight_controller and flight_controller.flight_mode_enabled
