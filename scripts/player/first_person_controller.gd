@@ -40,6 +40,9 @@ func _physics_process(delta):
 
 func _process(delta):
 	# UI logic
+	if not hud_label:
+		return
+	
 	var target = _get_targeted_interactable()
 	if is_instance_valid(target) and target.has_method("get_component"):
 		var component = target.get_component()
