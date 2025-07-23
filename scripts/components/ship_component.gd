@@ -5,6 +5,7 @@ signal component_failed
 
 @export var component_name: String
 @export var condition: float = 1.0
+@export var power_draw: float = 0.0
 @export var is_powered: bool = false
 
 func degrade(amount: float) -> void:
