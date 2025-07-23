@@ -25,3 +25,9 @@ func update_grid_state():
 			component.is_powered = true
 		else:
 			component.is_powered = false
+
+func is_grid_powered() -> bool:
+	if components.is_empty():
+		return false
+	# Assumes all components share the same power state
+	return components[0].is_powered

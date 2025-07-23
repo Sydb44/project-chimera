@@ -9,6 +9,7 @@ func _ready():
 	
 	_register_components()
 	power_grid.update_grid_state()
+	_update_all_component_hud_info() # Initial update
 
 func _register_components():
 	# Iterate through all direct children of this Ship node
@@ -26,3 +27,10 @@ func _on_component_state_changed():
 	# A component was repaired or failed, so update the grid
 	print("A component's state changed. Updating power grid.")
 	power_grid.update_grid_state()
+	_update_all_component_hud_info()
+
+func _update_all_component_hud_info():
+	# This function ensures that when one component changes state,
+	# the HUD for all other components is also updated if needed.
+	# This fixes the bug where the JunctionBox HUD didn't update.
+	print("Power Grid updated. All components are now powered: ", power_grid.is_grid_powered())

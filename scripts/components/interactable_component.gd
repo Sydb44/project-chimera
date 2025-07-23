@@ -5,7 +5,6 @@ signal state_changed
 
 @export var ship_component: Resource
 
-# This function allows the player controller to safely get the component
 func get_component():
 	return ship_component
 
