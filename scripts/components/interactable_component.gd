@@ -3,7 +3,7 @@ extends StaticBody3D
 # Emitted when this component is repaired or its state changes
 signal state_changed
 
-@export var ship_component: ShipComponent
+@export var ship_component: Resource
 
 # This function allows the player controller to safely get the component
 func get_component():

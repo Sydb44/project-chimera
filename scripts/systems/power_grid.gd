@@ -14,7 +14,7 @@ func update_grid_state():
 	
 	# Second pass: calculate total demand from working components
 	for component in components:
-		 if component.condition > 0.0 and component.power_draw < 0:
+		if component.condition > 0.0 and component.power_draw < 0:
 			total_demand += abs(component.power_draw)
 
 	var power_is_sufficient: bool = total_supply >= total_demand

@@ -1,10 +1,11 @@
 extends Node3D
 
-@export var power_grid: PowerGrid
+@export var power_grid: Resource
 
 func _ready():
 	if not power_grid:
-		power_grid = PowerGrid.new()
+		var power_grid_script = load("res://scripts/systems/power_grid.gd")
+		power_grid = power_grid_script.new()
 	
 	_register_components()
 	power_grid.update_grid_state()
