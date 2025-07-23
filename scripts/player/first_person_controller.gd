@@ -68,8 +68,8 @@ func _update_hud():
 	# If we are looking at the same target, we can still update its text if needed
 	# This handles the case where the component's state changes while we are looking at it
 	elif is_instance_valid(current_target):
-		 var component = current_target.ship_component
-		 var status = "Powered" if component.is_powered else "Offline"
-		 var new_text = "%s | Condition: %d%% | Status: %s" % [current_target.name, component.condition * 100, status]
-		 if hud_label.text != new_text:
-			 hud_label.text = new_text
+		var component = current_target.ship_component
+		var status = "Powered" if component.is_powered else "Offline"
+		var new_text = "%s | Condition: %d%% | Status: %s" % [current_target.name, component.condition * 100, status]
+		if hud_label.text != new_text:
+			hud_label.text = new_text
