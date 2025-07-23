@@ -8,8 +8,16 @@ func _ready():
 		power_grid = power_grid_script.new()
 	
 	_register_components()
-	power_grid.update_grid_state()
 	_update_all_component_hud_info() # Initial update
+
+func _physics_process(delta):
+	# Process all components that have physics processing
+	for component in power_grid.components:
+		if component.has_method("_physics_process"):
+			component._physics_process(delta)
+	
+	# Update power grid state after all component processing
+	power_grid.update_grid_state()
 
 func _register_components():
 	# Iterate through all direct children of this Ship node

@@ -41,15 +41,20 @@ func _physics_process(delta):
 			target.get_component().degrade(1.0)
 
 func _process(delta):
-	# UI logic
-	var target = _get_targeted_interactable()
-	if is_instance_valid(target) and target.has_method("get_component"):
-		var component = target.get_component()
-		var status = "Powered" if component.is_powered else "Offline"
-		var new_text = "%s | Condition: %d%% | Status: %s" % [target.name, component.condition * 100, status]
-		if hud_label.text != new_text: hud_label.text = new_text
+	var ship = get_parent()
+	if not ship or not ship.has_method("_register_components"):
+		hud_label.text = "No Ship Data Available"
+		return
+
+	var hud_text = ""
+	if ship.power_grid and not ship.power_grid.components.is_empty():
+		for component in ship.power_grid.components:
+			var status = "Powered" if component.is_powered else "Offline"
+			hud_text += "%s | Condition: %d%% | Status: %s\n" % [component.component_name, component.condition * 100, status]
 	else:
-		if hud_label.text != "": hud_label.text = ""
+		hud_text = "Power grid offline or no components found."
+
+	hud_label.text = hud_text
 
 func _get_targeted_interactable():
 	if not interaction_raycast.is_colliding(): return null
