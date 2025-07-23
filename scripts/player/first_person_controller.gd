@@ -6,6 +6,7 @@ extends CharacterBody3D
 
 @onready var camera: Camera3D = $Camera3D
 @onready var raycast: RayCast3D = $Camera3D/RayCast3D
+@onready var hud_label: Label
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -40,6 +41,7 @@ func _physics_process(delta):
 	move_and_slide()
 	
 	_handle_interaction()
+	_update_hud()
 	_handle_debug_input()
 
 func _handle_interaction():
@@ -48,6 +50,16 @@ func _handle_interaction():
 			var collider = raycast.get_collider()
 			if collider and collider.get_parent().has_method("interact"):
 				collider.get_parent().interact()
+
+func _update_hud():
+	if raycast.is_colliding():
+		var collider = raycast.get_collider()
+		if collider and collider.get_parent().has_method("interact"):
+			if hud_label:
+				hud_label.text = "Press E to interact"
+	else:
+		if hud_label:
+			hud_label.text = ""
 
 func _handle_debug_input():
 	if Input.is_action_just_pressed("debug_degrade"):
