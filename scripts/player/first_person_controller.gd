@@ -6,7 +6,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var camera: Camera3D = $Camera3D
 @onready var interaction_raycast: RayCast3D = $Camera3D/InteractionRaycast
-@onready var hud_label: Label = get_node("/root/TestHangar/HUD/Label2")
+@export var hud_label: Label
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -40,6 +40,9 @@ func _physics_process(delta):
 
 func _process(delta):
 	# UI logic
+	if not hud_label:
+		return
+	
 	var target = _get_targeted_interactable()
 	if is_instance_valid(target) and target.has_method("get_component"):
 		var component = target.get_component()
