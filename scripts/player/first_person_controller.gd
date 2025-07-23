@@ -56,9 +56,10 @@ func _process(delta):
 	var target = _get_targeted_interactable()
 	if is_instance_valid(target) and target.has_method("get_component"):
 		var component = target.get_component()
-		var status = "Powered" if component.is_powered else "Offline"
-		var new_text = "%s | Condition: %d%% | Status: %s" % [target.name, component.condition * 100, status]
-		if hud_label.text != new_text: hud_label.text = new_text
+		if component and "is_powered" in component and "condition" in component:
+			var status = "Powered" if component.is_powered else "Offline"
+			var new_text = "%s | Condition: %d%% | Status: %s" % [target.name, component.condition * 100, status]
+			if hud_label.text != new_text: hud_label.text = new_text
 	else:
 		if hud_label.text != "": hud_label.text = ""
 

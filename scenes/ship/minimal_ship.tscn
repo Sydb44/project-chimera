@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/components/resonance_core.gd" id="6_0"]
 [ext_resource type="Script" path="res://scripts/economy/charged_plasma.gd" id="7_0"]
 [ext_resource type="Script" path="res://scripts/components/phase_field_projector.gd" id="8_0"]
+[ext_resource type="Script" path="res://scripts/components/flight_control.gd" id="9_0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 
@@ -18,6 +19,8 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5"]
 
 [sub_resource type="Resource" id="Resource_1"]
 script = ExtResource("4_0")
@@ -53,6 +56,13 @@ power_draw = 50.0
 is_powered = true
 thrust_output = 100.0
 power_requirement = 50.0
+
+[sub_resource type="Resource" id="Resource_6"]
+script = ExtResource("4_0")
+component_name = "Flight Control Console"
+condition = 1.0
+power_draw = 25.0
+is_powered = true
 
 [node name="MinimalShip" type="Node3D"]
 script = ExtResource("5_0")
@@ -194,6 +204,18 @@ shape = SubResource("BoxShape3D_4")
 [node name="CSGBox3D" type="CSGBox3D" parent="AftPhaseFieldProjector"]
 use_collision = true
 size = Vector3(1, 1, 1)
+
+[node name="FlightControlConsole" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -9)
+script = ExtResource("2_0")
+ship_component = SubResource("Resource_6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FlightControlConsole"]
+shape = SubResource("BoxShape3D_5")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="FlightControlConsole"]
+use_collision = true
+size = Vector3(2, 1, 0.5)
 
 [node name="EngineeringLight" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6)
