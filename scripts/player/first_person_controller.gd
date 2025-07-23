@@ -3,6 +3,7 @@ extends CharacterBody3D
 @export var speed: float = 5.0
 @export var mouse_sensitivity: float = 0.002
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var current_target = null
 
 @onready var camera: Camera3D = $Camera3D
 @onready var interaction_raycast: RayCast3D = $Camera3D/InteractionRaycast
@@ -53,9 +54,22 @@ func _handle_debug_input():
 
 func _update_hud():
 	var target = _get_targeted_interactable()
-	if is_instance_valid(target) and target.ship_component:
-		var component = target.ship_component
-		var status = "Powered" if component.is_powered else "Offline"
-		hud_label.text = "%s | Condition: %d%% | Status: %s" % [component.component_name, component.condition * 100, status]
-	else:
-		hud_label.text = ""
+	
+	# Only update the HUD if the target has changed
+	if target != current_target:
+		current_target = target
+		if is_instance_valid(current_target) and current_target.ship_component:
+			var component = current_target.ship_component
+			var status = "Powered" if component.is_powered else "Offline"
+			hud_label.text = "%s | Condition: %d%% | Status: %s" % [current_target.name, component.condition * 100, status]
+		else:
+			hud_label.text = ""
+
+	# If we are looking at the same target, we can still update its text if needed
+	# This handles the case where the component's state changes while we are looking at it
+	elif is_instance_valid(current_target):
+		 var component = current_target.ship_component
+		 var status = "Powered" if component.is_powered else "Offline"
+		 var new_text = "%s | Condition: %d%% | Status: %s" % [current_target.name, component.condition * 100, status]
+		 if hud_label.text != new_text:
+			 hud_label.text = new_text
