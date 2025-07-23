@@ -14,18 +14,11 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2"]
 
-[sub_resource type="Resource" id="Resource_1"]
-script = ExtResource("4_0")
-component_name = "PowerConduit"
-condition = 1.0
-power_draw = -10.0
-is_powered = true
-
-[sub_resource type="Resource" id="Resource_3"]
+[sub_resource type="Resource" id="Resource_ChargedPlasma"]
 script = ExtResource("7_0")
 quantity = 1000.0
 
-[sub_resource type="Resource" id="Resource_2"]
+[sub_resource type="Resource" id="Resource_ResonanceCore"]
 script = ExtResource("6_0")
 component_name = "ResonanceCore"
 condition = 1.0
@@ -33,7 +26,14 @@ power_draw = 0.0
 is_powered = true
 max_power_output = 500.0
 plasma_consumption_rate = 0.5
-plasma_tank = SubResource("Resource_3")
+plasma_tank = SubResource("Resource_ChargedPlasma")
+
+[sub_resource type="Resource" id="Resource_PowerConduit"]
+script = ExtResource("4_0")
+component_name = "PowerConduit"
+condition = 1.0
+power_draw = -50.0
+is_powered = true
 
 [node name="MinimalShip" type="Node3D"]
 script = ExtResource("5_0")
@@ -124,7 +124,7 @@ target_position = Vector3(0, 0, -3)
 [node name="PowerConduit" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1, 6)
 script = ExtResource("2_0")
-ship_component = SubResource("Resource_1")
+ship_component = SubResource("Resource_PowerConduit")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PowerConduit"]
 shape = SubResource("BoxShape3D_1")
@@ -136,7 +136,7 @@ size = Vector3(1, 2, 1)
 [node name="ResonanceCore" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 6)
 script = ExtResource("2_0")
-ship_component = SubResource("Resource_2")
+ship_component = SubResource("Resource_ResonanceCore")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ResonanceCore"]
 shape = SubResource("BoxShape3D_2")
