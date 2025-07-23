@@ -10,3 +10,4 @@ func get_component():
 
 func interact():
 	print("Player interacted with '", name, "'.")
+	state_changed.emit()
