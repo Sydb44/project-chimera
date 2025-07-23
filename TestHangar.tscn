@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqxvhqxqxqxqx"]
+
+[ext_resource type="Script" path="res://scripts/player/first_person_controller.gd" id="1_0"]
+[ext_resource type="Script" path="res://scripts/components/power_conduit.gd" id="2_0"]
+[ext_resource type="Script" path="res://scripts/components/junction_box.gd" id="3_0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2"]
+
+[node name="TestHangar" type="Node3D"]
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+size = Vector3(20, 1, 20)
+
+[node name="WallNorth" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -10)
+size = Vector3(20, 10, 1)
+
+[node name="WallSouth" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 10)
+size = Vector3(20, 10, 1)
+
+[node name="WallEast" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 5, 0)
+size = Vector3(1, 10, 20)
+
+[node name="WallWest" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 5, 0)
+size = Vector3(1, 10, 20)
+
+[node name="Ceiling" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.5, 0)
+size = Vector3(20, 1, 20)
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_1")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D"]
+target_position = Vector3(0, 0, -3)
+
+[node name="PowerConduit" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -5)
+script = ExtResource("2_0")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="PowerConduit"]
+size = Vector3(1, 2, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PowerConduit"]
+shape = SubResource("BoxShape3D_1")
+
+[node name="JunctionBox" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, -5)
+script = ExtResource("3_0")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="JunctionBox"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="JunctionBox"]
+shape = SubResource("BoxShape3D_2")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 3, -5)
+light_energy = 2.0
+omni_range = 10.0
