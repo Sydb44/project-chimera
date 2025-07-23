@@ -1,7 +1,7 @@
 class_name PowerGrid
 extends Resource
 
-@export var components: Array[ShipComponent] = []
+@export var components: Array = []
 
 func update_grid_state():
 	var total_supply: float = 0.0
