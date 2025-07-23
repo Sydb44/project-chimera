@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqxvhqxqxqxqx"]
+[gd_scene load_steps=7 format=3 uid="uid://bqxvhqxqxqxqx"]
 
 [ext_resource type="Script" path="res://scripts/player/first_person_controller.gd" id="1_0"]
 [ext_resource type="Script" path="res://scripts/components/interactable_component.gd" id="2_0"]
 [ext_resource type="PackedScene" uid="uid://bqxvhqxqxqxqy" path="res://scenes/ui/hud.tscn" id="3_0"]
 [ext_resource type="Script" path="res://scripts/components/ship_component.gd" id="4_0"]
+[ext_resource type="Script" path="res://scripts/ship/ship.gd" id="5_0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 
@@ -26,6 +27,7 @@ power_draw = 20.0
 is_powered = true
 
 [node name="TestHangar" type="Node3D"]
+script = ExtResource("5_0")
 
 [node name="Floor" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
