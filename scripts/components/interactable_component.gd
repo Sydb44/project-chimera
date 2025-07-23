@@ -1,6 +1,7 @@
 extends StaticBody3D
 
-@export var ship_component: ShipComponent
+const ShipComponentScript = preload("res://scripts/components/ship_component.gd")
+@export var ship_component: ShipComponentScript
 
 func interact():
 	print("Player interacted with: ", name)
