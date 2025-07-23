@@ -1,0 +1,8 @@
+[application]
+
+config/name="Project Chimera"
+config/features=PackedStringArray("4.4", "Forward Plus")
+
+[rendering]
+
+renderer/rendering_method="forward_plus"

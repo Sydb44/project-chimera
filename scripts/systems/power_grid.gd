@@ -1,7 +1,7 @@
 extends Node
 class_name PowerGrid
 
-var components: Array[ShipComponent] = []
+var components: Array = []
 
 func _ready():
 	pass
