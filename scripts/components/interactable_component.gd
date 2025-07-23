@@ -9,4 +9,4 @@ func get_component():
 	return ship_component
 
 func interact():
-	print("Player interacted with '", name, "'. Nanofarm repair will be implemented here.")
+	print("Player interacted with '", name, "'.")
