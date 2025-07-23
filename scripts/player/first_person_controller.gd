@@ -46,8 +46,14 @@ func _handle_interaction():
 	if Input.is_action_just_pressed("interact"):
 		if raycast.is_colliding():
 			var collider = raycast.get_collider()
+			# Print the name of the object we hit to the console
+			print("Raycast hit: ", collider.name)
+			
 			if collider and collider.get_parent().has_method("interact"):
 				collider.get_parent().interact()
+		else:
+			# Print if we press E but are not looking at anything
+			print("Interaction key pressed, but raycast is not colliding with anything.")
 
 func _handle_debug_input():
 	if Input.is_action_just_pressed("debug_degrade"):

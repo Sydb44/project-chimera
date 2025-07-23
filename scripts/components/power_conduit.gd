@@ -25,6 +25,7 @@ func _on_component_failed():
 	_update_light()
 
 func interact():
+	print("Interact method called on Power Conduit.")
 	if ship_component.condition == 0.0:
 		_perform_makeshift_repair()
 
