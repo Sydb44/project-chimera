@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://scripts/components/ship_component.gd" id="4_0"]
 [ext_resource type="Script" path="res://scripts/ship/ship.gd" id="5_0"]
 [ext_resource type="Script" path="res://scripts/components/resonance_core.gd" id="6_0"]
-[ext_resource type="Script" path="res://scripts/economy/charged_plasma.gd" id="7_0"]</ext_resource>
+[ext_resource type="Script" path="res://scripts/economy/charged_plasma.gd" id="7_0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 

@@ -11,6 +11,14 @@ func _ready():
 	power_grid.update_grid_state()
 	_update_all_component_hud_info() # Initial update
 
+func _physics_process(delta: float) -> void:
+	# Process ResonanceCore components for plasma consumption
+	for child in get_children():
+		if child.has_method("get_component"):
+			var component_resource = child.get_component()
+			if component_resource and component_resource.has_method("process_physics"):
+				component_resource.process_physics(delta)
+
 func _register_components():
 	# Iterate through all direct children of this Ship node
 	for child in get_children():
