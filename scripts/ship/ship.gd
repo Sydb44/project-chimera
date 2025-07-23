@@ -11,6 +11,16 @@ func _ready():
 	power_grid.update_grid_state()
 	_update_all_component_hud_info() # Initial update
 
+func _physics_process(delta):
+	# First, process all components so their states (like power generation) are up-to-date.
+	if power_grid:
+		for component in power_grid.components:
+			if component.has_method("_physics_process"):
+				component._physics_process(delta)
+
+		# Now, with updated states, calculate the grid's overall power status.
+		power_grid.update_grid_state()
+
 func _register_components():
 	# Iterate through all direct children of this Ship node
 	for child in get_children():
