@@ -51,7 +51,7 @@ func _apply_flight_physics(delta: float):
 func _calculate_total_thrust() -> float:
 	var total_thrust = 0.0
 	for projector in phase_field_projectors:
-		if projector:
+		if projector and projector.has_method("get_thrust_multiplier"):
 			total_thrust += projector.get_thrust_multiplier()
 	return total_thrust
 
