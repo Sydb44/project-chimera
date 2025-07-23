@@ -9,22 +9,23 @@ func update_grid_state():
 	
 	# First pass: calculate total available power from working components
 	for component in components:
-		if component.condition > 0.0 and component.power_draw > 0:
+		if component and component.has_method("get") and component.condition > 0.0 and component.power_draw > 0:
 			total_supply += component.power_draw
 	
 	# Second pass: calculate total demand from working components
 	for component in components:
-		if component.condition > 0.0 and component.power_draw < 0:
+		if component and component.has_method("get") and component.condition > 0.0 and component.power_draw < 0:
 			total_demand += abs(component.power_draw)
 
 	var power_is_sufficient: bool = total_supply >= total_demand
 	
 	# Final pass: update the power status of every component
 	for component in components:
-		if component.condition > 0.0 and power_is_sufficient:
-			component.is_powered = true
-		else:
-			component.is_powered = false
+		if component and component.has_method("get"):
+			if component.condition > 0.0 and power_is_sufficient:
+				component.is_powered = true
+			else:
+				component.is_powered = false
 
 func is_grid_powered() -> bool:
 	if components.is_empty():

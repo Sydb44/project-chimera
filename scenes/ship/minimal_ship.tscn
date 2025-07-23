@@ -7,12 +7,17 @@
 [ext_resource type="Script" path="res://scripts/ship/ship.gd" id="5_0"]
 [ext_resource type="Script" path="res://scripts/components/resonance_core.gd" id="6_0"]
 [ext_resource type="Script" path="res://scripts/economy/charged_plasma.gd" id="7_0"]
+[ext_resource type="Script" path="res://scripts/components/phase_field_projector.gd" id="8_0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4"]
 
 [sub_resource type="Resource" id="Resource_1"]
 script = ExtResource("4_0")
@@ -27,13 +32,27 @@ quantity = 1000.0
 
 [sub_resource type="Resource" id="Resource_2"]
 script = ExtResource("6_0")
-component_name = "ResonanceCore"
-condition = 1.0
-power_draw = 0.0
-is_powered = true
 max_power_output = 500.0
 plasma_consumption_rate = 0.5
 plasma_tank = SubResource("Resource_3")
+
+[sub_resource type="Resource" id="Resource_4"]
+script = ExtResource("8_0")
+component_name = "Forward Phase-Field Projector"
+condition = 1.0
+power_draw = 50.0
+is_powered = true
+thrust_output = 100.0
+power_requirement = 50.0
+
+[sub_resource type="Resource" id="Resource_5"]
+script = ExtResource("8_0")
+component_name = "Aft Phase-Field Projector"
+condition = 1.0
+power_draw = 50.0
+is_powered = true
+thrust_output = 100.0
+power_requirement = 50.0
 
 [node name="MinimalShip" type="Node3D"]
 script = ExtResource("5_0")
@@ -151,6 +170,30 @@ size = Vector3(1.5, 1.5, 1.5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -8)
 light_energy = 1.5
 omni_range = 8.0
+
+[node name="ForwardPhaseFieldProjector" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+script = ExtResource("2_0")
+ship_component = SubResource("Resource_4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ForwardPhaseFieldProjector"]
+shape = SubResource("BoxShape3D_3")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="ForwardPhaseFieldProjector"]
+use_collision = true
+size = Vector3(1, 1, 1)
+
+[node name="AftPhaseFieldProjector" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8)
+script = ExtResource("2_0")
+ship_component = SubResource("Resource_5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AftPhaseFieldProjector"]
+shape = SubResource("BoxShape3D_4")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="AftPhaseFieldProjector"]
+use_collision = true
+size = Vector3(1, 1, 1)
 
 [node name="EngineeringLight" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6)
