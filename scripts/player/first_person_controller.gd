@@ -56,6 +56,8 @@ func _update_hud():
 	if is_instance_valid(target) and target.ship_component:
 		var component = target.ship_component
 		var status = "Powered" if component.is_powered else "Offline"
-		hud_label.text = "%s | Condition: %d%% | Status: %s" % [component.component_name, component.condition * 100, status]
+		hud_label.text = "%s | Condition: %d%% | Status: %s" % [target.name, component.condition * 100, status]
 	else:
-		hud_label.text = ""
+		# Only clear the text if it's not already empty
+		if hud_label.text != "":
+			hud_label.text = ""
