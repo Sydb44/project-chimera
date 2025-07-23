@@ -6,7 +6,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var camera: Camera3D = $Camera3D
 @onready var interaction_raycast: RayCast3D = $Camera3D/InteractionRaycast
-@onready var hud_label: Label = get_node("/root/TestHangar/HUD/Label2")
+@onready var hud_label: Label = get_node("/root/Ship/HUD/Label2")
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
