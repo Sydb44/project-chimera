@@ -1,15 +1,21 @@
 extends Node3D
 
 @export var power_grid: Resource
+@export var flight_controller: FlightController
 
 func _ready():
 	if not power_grid:
 		var power_grid_script = load("res://scripts/systems/power_grid.gd")
 		power_grid = power_grid_script.new()
 	
+	if not flight_controller:
+		flight_controller = FlightController.new()
+		add_child(flight_controller)
+	
 	_register_components()
+	_register_flight_projectors()
 	power_grid.update_grid_state()
-	_update_all_component_hud_info() # Initial update
+	_update_all_component_hud_info()# Initial update
 
 func _physics_process(delta):
 	# First, process all components so their states (like power generation) are up-to-date.
@@ -44,3 +50,18 @@ func _update_all_component_hud_info():
 	# the HUD for all other components is also updated if needed.
 	# This fixes the bug where the JunctionBox HUD didn't update.
 	print("Power Grid updated. All components are now powered: ", power_grid.is_grid_powered())
+
+func _register_flight_projectors():
+	for child in get_children():
+		if child.has_method("get_component"):
+			var component = child.get_component()
+			if component is PhaseFieldProjector:
+				flight_controller.register_projector(component)
+
+func toggle_flight_mode():
+	if flight_controller:
+		flight_controller.flight_mode_enabled = !flight_controller.flight_mode_enabled
+		print("Flight mode: ", "ON" if flight_controller.flight_mode_enabled else "OFF")
+
+func is_flight_mode_enabled() -> bool:
+	return flight_controller and flight_controller.flight_mode_enabled

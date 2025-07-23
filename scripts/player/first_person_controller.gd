@@ -18,15 +18,26 @@ func _input(event):
 		camera.rotation.x = clampf(camera.rotation.x, -PI/2, PI/2)
 
 func _physics_process(delta):
-	# Movement logic
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-	
-	var input_dir = Input.get_vector("left", "right", "forward", "backward")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	velocity.x = direction.x * speed
-	velocity.z = direction.z * speed
-	move_and_slide()
+
+	# Flight mode toggle
+	if Input.is_action_just_pressed("toggle_flight"):
+		var ship = get_parent()
+		if ship and ship.has_method("toggle_flight_mode"):
+			ship.toggle_flight_mode()
+
+	# Only apply walking physics when not in flight mode
+	var ship = get_parent()
+	var in_flight_mode = ship and ship.has_method("is_flight_mode_enabled") and ship.is_flight_mode_enabled()
+	if not in_flight_mode:
+		# Movement logic
+		if not is_on_floor():
+			velocity.y -= gravity * delta
+		
+		var input_dir = Input.get_vector("left", "right", "forward", "backward")
+		var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+		velocity.x = direction.x * speed
+		velocity.z = direction.z * speed
+		move_and_slide()
 
 	# Interaction
 	if Input.is_action_just_pressed("interact"):
