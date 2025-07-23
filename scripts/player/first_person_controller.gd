@@ -6,8 +6,11 @@ extends CharacterBody3D
 
 @onready var camera: Camera3D = $Camera3D
 @onready var raycast: RayCast3D = $Camera3D/RayCast3D
+@onready var hud_label: Label = get_node("/root/TestHangar/HUD/StatusLabel")
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var current_target = null
+var last_hud_text = ""
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -41,6 +44,7 @@ func _physics_process(delta):
 	
 	_handle_interaction()
 	_handle_debug_input()
+	_update_hud()
 
 func _handle_interaction():
 	if Input.is_action_just_pressed("interact"):
@@ -54,3 +58,35 @@ func _handle_debug_input():
 		var power_conduit = get_node("../PowerConduit")
 		if power_conduit and power_conduit.ship_component:
 			power_conduit.ship_component.degrade(1.0)
+
+func _get_targeted_component():
+	if raycast.is_colliding():
+		var collider = raycast.get_collider()
+		if collider and collider.get_parent().has_method("interact"):
+			return collider.get_parent()
+	return null
+
+func _update_hud():
+	var target = _get_targeted_component()
+	
+	if target != current_target:
+		current_target = target
+		if current_target and current_target.ship_component:
+			var component = current_target.ship_component
+			var status = "Powered" if component.is_powered else "Offline"
+			var new_text = "%s | Condition: %d%% | Status: %s" % [component.component_name, component.condition * 100, status]
+			if new_text != last_hud_text:
+				hud_label.text = new_text
+				last_hud_text = new_text
+		else:
+			if last_hud_text != "":
+				hud_label.text = ""
+				last_hud_text = ""
+	
+	elif current_target and current_target.ship_component:
+		var component = current_target.ship_component
+		var status = "Powered" if component.is_powered else "Offline"
+		var new_text = "%s | Condition: %d%% | Status: %s" % [component.component_name, component.condition * 100, status]
+		if new_text != last_hud_text:
+			hud_label.text = new_text
+			last_hud_text = new_text

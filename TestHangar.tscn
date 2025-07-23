@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqxvhqxqxqxqx"]
+[gd_scene load_steps=5 format=3 uid="uid://bqxvhqxqxqxqx"]
 
 [ext_resource type="Script" path="res://scripts/player/first_person_controller.gd" id="1_0"]
 [ext_resource type="Script" path="res://scripts/components/power_conduit.gd" id="2_0"]
 [ext_resource type="Script" path="res://scripts/components/junction_box.gd" id="3_0"]
+[ext_resource type="PackedScene" uid="uid://bqxvhqxqxqxqy" path="res://scenes/ui/hud.tscn" id="4_0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 
@@ -69,6 +70,8 @@ size = Vector3(1.5, 1.5, 1.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="JunctionBox"]
 shape = SubResource("BoxShape3D_2")
+
+[node name="HUD" parent="." instance=ExtResource("4_0")]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 3, -5)
