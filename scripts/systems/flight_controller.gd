@@ -2,7 +2,7 @@ class_name FlightController
 extends Node3D
 
 @export var player_controller: CharacterBody3D
-@export var phase_field_projectors: Array[PhaseFieldProjector] = []
+@export var phase_field_projectors: Array = []
 @export var flight_mode_enabled: bool = false
 
 var flight_velocity: Vector3 = Vector3.ZERO
@@ -58,9 +58,9 @@ func _calculate_total_thrust() -> float:
 func _calculate_rotational_power() -> float:
 	return _calculate_total_thrust() * 0.1
 
-func register_projector(projector: PhaseFieldProjector):
+func register_projector(projector):
 	if projector and not projector in phase_field_projectors:
 		phase_field_projectors.append(projector)
 
-func unregister_projector(projector: PhaseFieldProjector):
+func unregister_projector(projector):
 	phase_field_projectors.erase(projector)

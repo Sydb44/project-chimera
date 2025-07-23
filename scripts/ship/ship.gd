@@ -9,7 +9,9 @@ func _ready():
 	
 	# Create flight controller
 	var flight_controller_script = load("res://scripts/systems/flight_controller.gd")
-	var flight_controller = flight_controller_script.new()
+	var flight_controller = Node3D.new()
+	flight_controller.set_script(flight_controller_script)
+	flight_controller.name = "FlightController"
 	add_child(flight_controller)
 	
 	_register_components()
