@@ -10,5 +10,6 @@ func interact():
 	if ship_component and ship_component.condition == 0.0:
 		print("Repairing component: ", name)
 		ship_component.condition = 1.0
-		# For now, manually set power. We will connect this to a power grid later.
-		ship_component.is_powered = true
+		# Tell the ship the grid needs updating.
+		# We assume the parent is the ship for this test.
+		get_parent()._on_component_state_changed()
