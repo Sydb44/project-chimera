@@ -34,9 +34,9 @@ func _physics_process(delta):
 			target.interact()
 
 	if Input.is_action_just_pressed("debug_degrade"):
-		var conduit = get_node_or_null("../PowerConduit")
-		if is_instance_valid(conduit) and conduit.has_method("get_component"):
-			conduit.get_component().degrade(1.0)
+		var target = _get_targeted_interactable()
+		if is_instance_valid(target) and target.has_method("get_component"):
+			target.get_component().degrade(1.0)
 
 func _process(delta):
 	# UI logic
