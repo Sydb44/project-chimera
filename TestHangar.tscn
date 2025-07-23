@@ -1,14 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqxvhqxqxqxqx"]
+[gd_scene load_steps=6 format=3 uid="uid://bqxvhqxqxqxqx"]
 
 [ext_resource type="Script" path="res://scripts/player/first_person_controller.gd" id="1_0"]
 [ext_resource type="Script" path="res://scripts/components/interactable_component.gd" id="2_0"]
 [ext_resource type="PackedScene" uid="uid://bqxvhqxqxqxqy" path="res://scenes/ui/hud.tscn" id="4_0"]
+[ext_resource type="Script" path="res://scripts/components/ship_component.gd" id="5_0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2"]
+
+[sub_resource type="Resource" id="Resource_1"]
+script = ExtResource("5_0")
+component_name = "PowerConduit"
+power_draw = -10.0
+condition = 1.0
+is_powered = true
+
+[sub_resource type="Resource" id="Resource_2"]
+script = ExtResource("5_0")
+component_name = "JunctionBox"
+power_draw = 20.0
+condition = 1.0
+is_powered = true
 
 [node name="TestHangar" type="Node3D"]
 
@@ -53,6 +68,7 @@ target_position = Vector3(0, 0, -3)
 [node name="PowerConduit" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 1, -5)
 script = ExtResource("2_0")
+ship_component = SubResource("Resource_1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PowerConduit"]
 shape = SubResource("BoxShape3D_1")
@@ -64,6 +80,7 @@ size = Vector3(1, 2, 1)
 [node name="JunctionBox" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, -5)
 script = ExtResource("2_0")
+ship_component = SubResource("Resource_2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="JunctionBox"]
 shape = SubResource("BoxShape3D_2")
