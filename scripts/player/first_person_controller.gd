@@ -9,54 +9,52 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var hud_label: Label = get_node("../HUD/Label2")
 
 func _ready():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+    Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event):
-	if event is InputEventMouseMotion:
-		rotate_y(-event.relative.x * mouse_sensitivity)
-		camera.rotate_x(-event.relative.y * mouse_sensitivity)
-		camera.rotation.x = clampf(camera.rotation.x, -PI/2, PI/2)
+    if event is InputEventMouseMotion:
+        rotate_y(-event.relative.x * mouse_sensitivity)
+        camera.rotate_x(-event.relative.y * mouse_sensitivity)
+        camera.rotation.x = clampf(camera.rotation.x, -PI/2, PI/2)
 
 func _physics_process(delta):
-	# Movement logic
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-	
-	var input_dir = Input.get_vector("left", "right", "forward", "backward")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	velocity.x = direction.x * speed
-	velocity.z = direction.z * speed
-	move_and_slide()
+    # Movement
+    if not is_on_floor():
+        velocity.y -= gravity * delta
+    
+    var input_dir = Input.get_vector("left", "right", "forward", "backward")
+    var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+    velocity.x = direction.x * speed
+    velocity.z = direction.z * speed
+    move_and_slide()
 
-	# Interaction
-	if Input.is_action_just_pressed("interact"):
-		var target = _get_targeted_interactable()
-		if is_instance_valid(target):
-			target.interact()
+    # Interaction
+    if Input.is_action_just_pressed("interact"):
+        var target = _get_targeted_interactable()
+        if is_instance_valid(target):
+            target.interact()
 
-	# Debug
-	if Input.is_action_just_pressed("debug_degrade"):
-		var target = _get_targeted_interactable()
-		if is_instance_valid(target) and target.has_method("get_component"):
-			target.get_component().degrade(1.0)
+    # Debug
+    if Input.is_action_just_pressed("debug_degrade"):
+        var target = _get_targeted_interactable()
+        if is_instance_valid(target) and target.has_method("get_component"):
+            target.get_component().degrade(1.0)
 
 func _process(delta):
-	# UI logic
-	var target = _get_targeted_interactable()
-	if is_instance_valid(target) and target.has_method("get_component"):
-		var component = target.get_component()
-		var status = "Powered" if component.is_powered else "Offline"
-		var new_text = "%s | Condition: %d%% | Status: %s" % [target.name, component.condition * 100, status]
-		if hud_label.text != new_text: hud_label.text = new_text
-	else:
-		if hud_label.text != "": hud_label.text = ""
+    # UI
+    var target = _get_targeted_interactable()
+    if is_instance_valid(target) and target.has_method("get_component"):
+        var component = target.get_component()
+        var status = "Powered" if component.is_powered else "Offline"
+        var new_text = "%s | Condition: %d%% | Status: %s" % [target.name, component.condition * 100, status]
+        if hud_label.text != new_text: hud_label.text = new_text
+    else:
+        if hud_label.text != "": hud_label.text = ""
 
 func _get_targeted_interactable():
-	if not interaction_raycast.is_colliding(): return null
-	var collider = interaction_raycast.get_collider()
-	if is_instance_valid(collider) and collider.has_method("interact"):
-		return collider
-	var parent = collider.get_parent()
-	if is_instance_valid(parent) and parent.has_method("interact"):
-		return parent
-	return null
+    if not interaction_raycast.is_colliding(): return null
+    var collider = interaction_raycast.get_collider()
+    if is_instance_valid(collider) and collider.has_method("interact"): return collider
+    var parent = collider.get_parent()
+    if is_instance_valid(parent) and parent.has_method("interact"): return parent
+    return null
