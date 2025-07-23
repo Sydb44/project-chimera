@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqxvhqxqxqxqx"]
+[gd_scene load_steps=4 format=3 uid="uid://bqxvhqxqxqxqx"]
 
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_0"]
 [ext_resource type="Script" path="res://scripts/components/interactable_component.gd" id="2_0"]
-[ext_resource type="Script" path="res://scripts/components/ship_component.gd" id="3_0"]
 [ext_resource type="PackedScene" uid="uid://bqxvhqxqxqxqy" path="res://scenes/ui/hud.tscn" id="4_0"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
@@ -62,9 +61,6 @@ shape = SubResource("BoxShape3D_1")
 use_collision = true
 size = Vector3(1, 2, 1)
 
-[node name="ShipComponent" type="Node" parent="PowerConduit"]
-script = ExtResource("3_0")
-
 [node name="JunctionBox" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, -5)
 script = ExtResource("2_0")
@@ -75,9 +71,6 @@ shape = SubResource("BoxShape3D_2")
 [node name="CSGBox3D" type="CSGBox3D" parent="JunctionBox"]
 use_collision = true
 size = Vector3(1.5, 1.5, 1.5)
-
-[node name="ShipComponent" type="Node" parent="JunctionBox"]
-script = ExtResource("3_0")
 
 [node name="HUD" parent="." instance=ExtResource("4_0")]
 

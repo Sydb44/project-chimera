@@ -6,10 +6,11 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 @onready var camera: Camera3D = $Camera3D
 @onready var interaction_raycast: RayCast3D = $Camera3D/InteractionRaycast
-@onready var hud_label: Label = get_node("/root/TestHangar/HUD/Label2") # Assumes the second label is for status
+@onready var hud_label: Label
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	hud_label = get_node("/root/TestHangar/HUD/Label2")
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -45,8 +46,8 @@ func _physics_process(delta):
 func _update_hud():
 	if interaction_raycast.is_colliding():
 		var target = interaction_raycast.get_collider()
-		if is_instance_valid(target) and target.has_node("ShipComponent"):
-			var component = target.get_node("ShipComponent")
+		if is_instance_valid(target) and target.has_method("get") and target.component:
+			var component = target.component
 			var status = "Powered" if component.is_powered else "Offline"
 			hud_label.text = "%s | Condition: %d%% | Status: %s" % [component.component_name, component.condition * 100, status]
 			return

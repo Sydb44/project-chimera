@@ -1,11 +1,14 @@
 extends StaticBody3D
 
-@onready var component: ShipComponent = $ShipComponent
+const ShipComponentScript = preload("res://scripts/components/ship_component.gd")
+@export var component: ShipComponentScript
 
 func _ready():
+	# Create a new ShipComponent resource if none is assigned
+	if not component:
+		component = ShipComponentScript.new()
 	# This makes sure the component knows its in-world name
-	if component:
-		component.component_name = self.name
+	component.component_name = self.name
 
 func interact():
 	print("Player interacted with: ", self.name)
