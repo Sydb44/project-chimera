@@ -12,6 +12,13 @@ func update_grid_state():
 		if component and "condition" in component and "power_draw" in component and component.condition > 0.0 and component.power_draw > 0:
 			total_supply += component.power_draw
 	
+	# Apply random power fluctuation of ±5% to make the grid feel more alive
+	if total_supply > 0.0:
+		var fluctuation_range = total_supply * 0.05
+		var fluctuation = randf_range(-fluctuation_range, fluctuation_range)
+		total_supply += fluctuation
+		total_supply = max(0.0, total_supply)  # Ensure supply doesn't go negative
+	
 	# Second pass: calculate total demand from working components
 	for component in components:
 		if component and "condition" in component and "power_draw" in component and component.condition > 0.0 and component.power_draw < 0:
